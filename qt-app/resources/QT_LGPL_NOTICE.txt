@@ -1,0 +1,42 @@
+Qt LGPL v3 License Notice
+========================
+
+This application uses Qt libraries under the GNU Lesser General Public License v. 3 (LGPL v3).
+
+USER RIGHTS UNDER LGPL v3:
+==========================
+
+You have the following rights regarding this application and the Qt libraries it uses:
+
+1. FREEDOM TO RUN: You may run this program for any purpose.
+
+2. FREEDOM TO STUDY: You may study how the program works and adapt it to your needs.
+
+3. FREEDOM TO REDISTRIBUTE: You may redistribute copies of this program.
+
+4. FREEDOM TO IMPROVE: You may improve the program and release your improvements to the public.
+
+SPECIFIC LGPL REQUIREMENTS:
+==========================
+
+- Qt libraries are dynamically linked to this application
+- You may modify and re-link the Qt libraries used in this application
+- You may reverse engineer the Qt libraries for interoperability
+- The Qt source code is available at: https://www.qt.io/download-open-source
+
+LICENSE TEXT:
+============
+
+The complete LGPL v3 license text is available with your Qt installation and can be found at:
+https://www.gnu.org/licenses/lgpl-3.0.html
+
+For complete Qt LGPL compliance information, visit:
+https://www.qt.io/licensing/open-source-lgpl-obligations
+
+IMPORTANT:
+==========
+
+This notice cannot be removed or modified. The LGPL v3 license terms cannot be restricted by any other licensing terms. If this application does not comply with LGPL v3 requirements, it may not be distributed.
+
+For questions about Qt licensing, contact The Qt Company at:
+https://www.qt.io/contact-us 

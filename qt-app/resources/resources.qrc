@@ -1,0 +1,20 @@
+<RCC>
+    <qresource prefix="/">
+        <file>assets/images/logo.png</file>
+        <file>assets/images/speedometer.png</file>
+        <file>assets/images/vehicle.png</file>
+        <file>assets/icons/app-icon.svg</file>
+        <file>assets/icons/connect.svg</file>
+        <file>assets/icons/disconnect.svg</file>
+        <file>assets/icons/settings.svg</file>
+        <file>assets/icons/export.svg</file>
+        <file>assets/icons/import.svg</file>
+        <file>assets/icons/play.svg</file>
+        <file>assets/icons/pause.svg</file>
+        <file>assets/icons/stop.svg</file>
+        <file>assets/icons/reset.svg</file>
+        <file>assets/icons/help.svg</file>
+        <file>assets/icons/about.svg</file>
+        <file>QT_LGPL_NOTICE.txt</file>
+    </qresource>
+</RCC> 
