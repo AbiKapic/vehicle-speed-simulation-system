@@ -37,11 +37,19 @@ endif()
 set(SOURCES
     src/main.cpp
     src/mainwindow.cpp
+    src/models/VehicleModel.cpp
+    src/core/GameEngine.cpp
+    src/views/GameView.cpp
+    src/views/ControlPanel.cpp
 )
 
 
 set(HEADERS
     include/views/MainWindow.h
+    include/views/GameView.h
+    include/views/ControlPanel.h
+    include/models/VehicleModel.h
+    include/core/GameEngine.h
 )
 
 

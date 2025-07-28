@@ -1,219 +1,158 @@
-# Vehicle Speed Checkout
+# Vehicle Speed Simulation System
 
-A professional Qt-based application for vehicle speed monitoring and analysis.
+A Qt-based 2D vehicle simulation application featuring a car driving on professional road graphics with real-time speed control and future MQTT integration capabilities.
 
-## Features
+## 🚗 Features
 
-- Real-time speed monitoring
-- Data visualization and analysis
-- Modular architecture
-- Professional UI design
-- Cross-platform compatibility
+- **2D Road Simulation**: Vehicle automatically drives on a professional road background
+- **Real-time Speed Control**: Adjust vehicle speed using slider and buttons
+- **Start/Stop Controls**: Start and stop the vehicle simulation
+- **Waypoint Navigation**: Car follows a predefined path with smooth movement
+- **Professional Graphics**: Uses high-quality road assets for realistic appearance
+- **LGPL Compliant**: Fully compliant with Qt LGPL v3 licensing requirements
+- **MQTT Ready**: Framework prepared for real-time data transmission to mobile apps
 
-## Project Structure
+## 📋 Requirements
 
-```
-VehicleSpeedCheckout/
-├── assets/              # Application assets (images, icons)
-├── docs/               # Documentation
-├── external/           # External dependencies
-├── include/            # Header files
-│   ├── core/          # Core application classes
-│   ├── controllers/   # Controller classes
-│   ├── models/        # Data models
-│   ├── views/         # UI components
-│   └── utils/         # Utility classes
-├── src/               # Source files
-│   ├── core/          # Core implementation
-│   ├── controllers/   # Controller implementation
-│   ├── models/        # Model implementation
-│   ├── views/         # View implementation
-│   └── utils/         # Utility implementation
-├── ui/                # Qt Designer UI files
-├── resources/         # Qt resources
-├── tests/             # Test files
-├── scripts/           # Build and deployment scripts
-├── build/             # Build output directory
-└── installers/        # Installation packages
-```
+- Qt 6.9.1 or later
+- MinGW 13.1.0 64-bit compiler (Windows)
+- C++17 compatible compiler
+- CMake 3.16 or later
 
-## Requirements
+## 🏗️ Building the Project
 
-- **Qt**: 6.9.1 or later (MinGW 64-bit version)
-- **C++**: C++17 or later
-- **CMake**: 3.16 or later
-- **Compiler**: MinGW 13.1.0 64-bit (included with Qt installation)
+### Using Qt Creator (Recommended)
+1. Open Qt Creator
+2. Open the project file `CMakeLists.txt`
+3. Configure the project to use MinGW 13.1.0 64-bit kit
+4. Build and run the project
 
-## Prerequisites
-
-### Installing Qt 6.9.1
-
-1. Download Qt 6.9.1 from [Qt Downloads](https://www.qt.io/download-open-source)
-2. During installation, select:
-   - Qt 6.9.1 → MinGW 13.1.0 64-bit
-   - Qt Creator
-   - CMake
-   - Ninja
-3. The default installation path should be `C:\Qt\6.9.1\mingw_64\`
-
-## Build Instructions
-
-### Using CMake
-
+### Using Command Line
 ```bash
-# Configure with Qt 6.9.1 MinGW
+# Create build directory
 mkdir build && cd build
-cmake .. -G "Ninja" -DCMAKE_PREFIX_PATH="C:/Qt/6.9.1/mingw_64" -DCMAKE_BUILD_TYPE=Release
 
-# Build
-cmake --build . --config Release
+# Configure with CMake
+cmake .. -G "Ninja" -DCMAKE_PREFIX_PATH="C:/Qt/6.9.1/mingw_64" -DCMAKE_BUILD_TYPE=Debug
 
-# Run (make sure Qt is in your PATH)
+# Build the project
+cmake --build . --config Debug
+
+# Run the application
 ./bin/VehicleSpeedCheckout.exe
 ```
 
-### Setting up PATH for Qt
+## 🎮 Usage
 
-To run the application, you need Qt libraries in your PATH:
+1. **Start Simulation**: Click the "Start" button to begin vehicle movement
+2. **Speed Control**: Use the slider or +/- buttons to control vehicle speed
+3. **Stop Simulation**: Click "Stop" to halt the vehicle
+4. **Real-time Display**: Watch the vehicle move along the road path
+5. **Interactive Waypoints**: Click on the road to add custom waypoints (right-click to reset)
 
-```bash
-# Add Qt to PATH (Windows PowerShell)
-$env:PATH = "C:\Qt\6.9.1\mingw_64\bin;$env:PATH"
+## 📁 Project Structure
 
-# Or permanently add to system PATH:
-# 1. Open System Properties → Environment Variables
-# 2. Add C:\Qt\6.9.1\mingw_64\bin to PATH
+```
+qt-app/
+├── src/
+│   ├── main.cpp              # Main application entry point
+│   ├── mainwindow.cpp        # Main window implementation
+│   ├── models/
+│   │   ├── VehicleModel.cpp  # Vehicle physics and movement
+│   │   └── RoadModel.cpp     # Road generation and management
+│   ├── core/
+│   │   └── GameEngine.cpp    # Main game loop and physics
+│   └── views/
+│       ├── GameView.cpp      # 2D graphics rendering
+│       └── ControlPanel.cpp  # UI controls
+├── include/
+│   ├── views/
+│   │   ├── MainWindow.h      # Main window interface
+│   │   ├── GameView.h        # Graphics view interface
+│   │   └── ControlPanel.h    # Control panel interface
+│   ├── models/
+│   │   ├── VehicleModel.h    # Vehicle model interface
+│   │   └── RoadModel.h       # Road model interface
+│   └── core/
+│       └── GameEngine.h      # Game engine interface
+├── assets/
+│   └── road_textures/
+│       └── road.png          # Main road background
+├── resources/
+│   └── resources.qrc         # Qt resource definitions
+├── CMakeLists.txt            # CMake build configuration
+├── LICENSE                   # MIT license with Qt LGPL notice
+└── README.md                 # This file
 ```
 
-### Using Qt Creator
-
-1. Open Qt Creator
-2. File → Open File or Project
-3. Select `CMakeLists.txt`
-4. Configure and build
-
-### Using Build Script (Windows)
-
-```bash
-# Run the build script (automatically sets up Qt environment)
-scripts/build.bat
-```
-
-This script will:
-- Set up the Qt environment
-- Configure the project with CMake
-- Build the application
-- Provide instructions for running
-
-## Usage
-
-1. Launch the application
-2. Configure your settings
-3. Connect to your vehicle sensors
-4. Monitor speed data in real-time
-
-## Development
+## 🔧 Technical Details
 
 ### Architecture
+- **Framework**: Qt 6.9.1 (LGPL v3)
+- **Language**: C++17
+- **Graphics**: QGraphicsView/QGraphicsScene for 2D rendering
+- **Animation**: QTimer-based smooth vehicle movement
+- **Build System**: CMake with Ninja generator
 
-This project follows the Model-View-Controller (MVC) pattern:
+### Key Components
+- **GameView**: Handles 2D graphics rendering and car animation
+- **VehicleModel**: Manages vehicle physics and sprite animation
+- **GameEngine**: Controls game loop and timing
+- **ControlPanel**: Provides user interface controls
+- **RoadModel**: Manages road assets and collision detection
 
-- **Models**: Data structures and business logic
-- **Views**: User interface components
-- **Controllers**: Application logic and data flow
+### Vehicle Movement
+- **Waypoint System**: Car follows predefined waypoints for realistic road navigation
+- **Smooth Animation**: Interpolated movement between waypoints
+- **Rotation**: Car automatically rotates to face movement direction
+- **Speed Control**: Real-time speed adjustment with physics-based movement
 
-### Adding Features
+## 📱 Future Features
 
-1. Create header file in `include/`
-2. Create implementation in `src/`
-3. Update `CMakeLists.txt` if needed
-4. Add tests in `tests/`
+- **MQTT Integration**: Real-time speed data transmission to mobile apps
+- **Flutter Mobile App**: Real-time notifications and speed display
+- **Enhanced Graphics**: More detailed vehicle sprites and road variety
+- **Sound Effects**: Engine sounds and environmental audio
+- **Multiple Vehicles**: Support for multiple cars on the road
+- **Traffic Simulation**: AI-controlled vehicles and traffic lights
 
-### Code Style
+## 📄 License
 
-- Follow Qt coding conventions
-- Use meaningful variable names
-- Add comments for complex logic
-- Keep functions small and focused
+This project is licensed under the **MIT License** - see the [LICENSE](LICENSE) file for details.
 
-## Testing
+### Third-Party Components
 
-```bash
-# Run unit tests
-cd build
-ctest --output-on-failure
+1. **Qt 6.9.1** (LGPL v3)
+   - Copyright (c) The Qt Company Ltd.
+   - https://www.qt.io/licensing/open-source-lgpl-obligations
 
-# Run specific test
-./bin/Release/tests/unit_tests/test_name
-```
+2. **Road Assets** (CC0)
+   - Professional road graphics for realistic simulation
+   - Creative Commons Zero license
 
-## Deployment
+### LGPL Compliance
 
-### Windows
+This application uses Qt libraries under LGPL v3, which allows you to:
+- Run this program for any purpose
+- Study how the program works and adapt it
+- Redistribute copies
+- Improve the program and release improvements
 
-```bash
-# Create installer
-scripts/create_installer.bat
+For complete LGPL compliance information, visit:
+https://www.qt.io/licensing/open-source-lgpl-obligations
 
-# Package application
-scripts/package.bat
-```
+## 🤝 Contributing
 
-### Linux
+Contributions are welcome! Please ensure your contributions comply with the MIT license and Qt LGPL requirements.
 
-```bash
-# Create AppImage
-scripts/create_appimage.sh
+## 📞 Support
 
-# Create DEB package
-scripts/create_deb.sh
-```
-
-## Contributing
-
-1. Fork the repository
-2. Create a feature branch
-3. Make your changes
-4. Add tests
-5. Submit a pull request
-
-## License
-
-This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
-
-## Qt LGPL Compliance
-
-This application uses Qt libraries under the GNU Lesser General Public License v. 3 (LGPL v3).
-
-### Compliance Requirements:
-
-- **Dynamic Linking**: Uses Qt via dynamic linking for LGPL compliance
-- **Source Availability**: Qt source code available at https://www.qt.io/download-open-source
-- **User Rights**: Users can modify and re-link Qt libraries
-- **License Notice**: LGPL v3 license included with Qt installation
-
-For complete LGPL compliance information, visit: https://www.qt.io/licensing/open-source-lgpl-obligations
-
-## Support
-
-- **Issues**: [GitHub Issues](https://github.com/yourusername/VehicleSpeedCheckout/issues)
-- **Documentation**: [Wiki](https://github.com/yourusername/VehicleSpeedCheckout/wiki)
-- **Forum**: [Qt Forum](https://forum.qt.io/)
-
-## Changelog
-
-### Version 1.0.0
-- Initial release
-- Basic speed monitoring functionality
-- Professional UI design
-- Modular architecture
-
-## Acknowledgments
-
-- Qt Framework and community
-- Open source contributors
-- Vehicle sensor technology providers
+For questions about:
+- **LGPL compliance**: https://www.qt.io/licensing/open-source-lgpl-obligations
+- **Qt development**: https://forum.qt.io/
+- **Project issues**: Create an issue in the repository
 
 ---
 
-**Note**: This application is designed for educational and non-commercial use. For commercial applications, please ensure compliance with Qt licensing requirements.
+**Vehicle Speed Simulation System** - MIT Licensed
+Copyright (c) 2025 VehicleSpeedCheckout

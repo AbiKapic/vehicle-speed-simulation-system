@@ -2,163 +2,71 @@
 #define VEHICLEMODEL_H
 
 #include <QObject>
-#include <QString>
-#include <QDateTime>
-#include <QVector>
-#include <QMutex>
-
-struct VehicleData {
-    QString id;
-    QString type;
-    QString manufacturer;
-    QString model;
-    int year;
-    double maxSpeed;
-    double engineCapacity;
-    QString fuelType;
-    QString transmission;
-    QDateTime registrationDate;
-    QString licensePlate;
-    QString vin;
-    QString color;
-    double weight;
-    double length;
-    double width;
-    double height;
-    int passengerCapacity;
-    QString status;
-    QDateTime lastMaintenance;
-    double totalMileage;
-    double currentMileage;
-    QString notes;
-};
-
-struct VehicleStatus {
-    QString status;
-    QString location;
-    QDateTime timestamp;
-    double currentSpeed;
-    double fuelLevel;
-    double batteryLevel;
-    double engineTemperature;
-    double oilPressure;
-    bool isRunning;
-    bool isConnected;
-    QString errorCode;
-    QString errorMessage;
-};
+#include <QPointF>
+#include <QPixmap>
+#include <QTimer>
+#include <QPropertyAnimation>
 
 class VehicleModel : public QObject
 {
     Q_OBJECT
+    Q_PROPERTY(QPointF position READ position WRITE setPosition NOTIFY positionChanged)
+    Q_PROPERTY(double speed READ speed WRITE setSpeed NOTIFY speedChanged)
 
 public:
-    explicit VehicleModel(QObject* parent = nullptr);
+    explicit VehicleModel(QObject *parent = nullptr);
     ~VehicleModel();
 
     
-    void setVehicleData(const VehicleData& data);
-    VehicleData getVehicleData() const;
-    void updateVehicleData(const QString& field, const QVariant& value);
+    QPointF position() const;
+    void setPosition(const QPointF &pos);
     
-    
-    void setVehicleStatus(const VehicleStatus& status);
-    VehicleStatus getVehicleStatus() const;
-    void updateStatus(const QString& status);
-    void updateLocation(const QString& location);
-    void updateSpeed(double speed);
-    void updateFuelLevel(double level);
-    void updateBatteryLevel(double level);
-    void updateEngineTemperature(double temperature);
-    void updateOilPressure(double pressure);
-    void setRunningState(bool running);
-    void setConnectionState(bool connected);
-    void setError(const QString& code, const QString& message);
-    void clearError();
-    
-    
-    QString getVehicleId() const;
-    QString getVehicleType() const;
-    QString getManufacturer() const;
-    QString getModel() const;
-    int getYear() const;
-    double getMaxSpeed() const;
-    QString getLicensePlate() const;
-    QString getVin() const;
-    QString getStatus() const;
+    double speed() const;
+    void setSpeed(double newSpeed);
     
    
-    bool isRunning() const;
-    bool isConnected() const;
-    bool hasError() const;
-    QString getErrorCode() const;
-    QString getErrorMessage() const;
-    double getCurrentSpeed() const;
-    double getFuelLevel() const;
-    double getBatteryLevel() const;
-    double getEngineTemperature() const;
-    double getOilPressure() const;
-    
-  
-    bool isValid() const;
-    QString validateVehicleData() const;
-    bool isSpeedValid(double speed) const;
-    bool isFuelLevelValid(double level) const;
-    bool isBatteryLevelValid(double level) const;
-    bool isTemperatureValid(double temperature) const;
-    bool isOilPressureValid(double pressure) const;
+    double maxSpeed() const { return m_maxSpeed; }
+    double acceleration() const { return m_acceleration; }
+    double deceleration() const { return m_deceleration; }
     
    
-    bool saveToFile(const QString& filePath);
-    bool loadFromFile(const QString& filePath);
-    QString toJson() const;
-    bool fromJson(const QString& json);
+    QSizeF size() const { return m_size; }
+    QRectF boundingRect() const;
     
+    void start();
+    void stop();
+    void accelerate();
+    void decelerate();
+    void updatePosition(double deltaTime);
     
-    void addStatusHistory(const VehicleStatus& status);
-    QVector<VehicleStatus> getStatusHistory() const;
-    QVector<VehicleStatus> getStatusHistory(const QDateTime& start, const QDateTime& end) const;
-    void clearStatusHistory();
-    int getStatusHistoryCount() const;
+    bool isOnRoad(const QRectF &roadBounds) const;
+    
+    QPixmap currentSprite() const;
+    void loadSprites();
 
 signals:
-    void vehicleDataChanged(const VehicleData& data);
-    void vehicleStatusChanged(const VehicleStatus& status);
-    void statusUpdated(const QString& status);
+    void positionChanged(const QPointF &position);
     void speedChanged(double speed);
-    void fuelLevelChanged(double level);
-    void batteryLevelChanged(double level);
-    void engineTemperatureChanged(double temperature);
-    void oilPressureChanged(double pressure);
-    void runningStateChanged(bool running);
-    void connectionStateChanged(bool connected);
-    void errorOccurred(const QString& code, const QString& message);
-    void errorCleared();
-    void dataSaved(const QString& filePath);
-    void dataLoaded(const QString& filePath);
+    void vehicleStopped();
+
+private slots:
+    void updateAnimation();
 
 private:
-    void emitDataChanged();
-    void emitStatusChanged();
-    bool validateField(const QString& field, const QVariant& value) const;
+    QPointF m_position;
+    double m_speed;
+    double m_maxSpeed;
+    double m_acceleration;
+    double m_deceleration;
+    QSizeF m_size;
     
-    VehicleData m_vehicleData;
-    VehicleStatus m_currentStatus;
-    QVector<VehicleStatus> m_statusHistory;
-    QMutex m_dataMutex;
-    QMutex m_statusMutex;
+    QTimer *m_animationTimer;
+    int m_currentFrame;
+    QVector<QPixmap> m_sprites;
+    bool m_isMoving;
     
-   
-    static const double MIN_SPEED;
-    static const double MAX_SPEED;
-    static const double MIN_FUEL_LEVEL;
-    static const double MAX_FUEL_LEVEL;
-    static const double MIN_BATTERY_LEVEL;
-    static const double MAX_BATTERY_LEVEL;
-    static const double MIN_TEMPERATURE;
-    static const double MAX_TEMPERATURE;
-    static const double MIN_OIL_PRESSURE;
-    static const double MAX_OIL_PRESSURE;
+    void initializeVehicle();
+    void createSimpleCarSprites();
 };
 
 #endif 

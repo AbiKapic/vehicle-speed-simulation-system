@@ -6,10 +6,12 @@ echo.
 
 :: Set Qt environment
 set QT_DIR=C:\Qt\6.9.1\mingw_64
-set PATH=%QT_DIR%\bin;%PATH%
+set MINGW_DIR=C:\Qt\Tools\mingw1310_64
+set PATH=%QT_DIR%\bin;%MINGW_DIR%\bin;%PATH%
 set CMAKE_PREFIX_PATH=%QT_DIR%
 
 echo Qt Directory: %QT_DIR%
+echo MinGW Directory: %MINGW_DIR%
 echo.
 
 :: Check if Qt is available
@@ -21,16 +23,25 @@ if not exist "%QT_DIR%\bin\qmake.exe" (
     exit /b 1
 )
 
+:: Check if MinGW is available
+if not exist "%MINGW_DIR%\bin\gcc.exe" (
+    echo ERROR: MinGW 13.1.0 not found at %MINGW_DIR%
+    echo Please install Qt 6.9.1 with MinGW 13.1.0 64-bit
+    pause
+    exit /b 1
+)
+
 echo Qt found successfully!
+echo MinGW found successfully!
 echo.
 
 :: Create build directory
 if not exist "build" mkdir build
 cd build
 
-:: Configure with CMake
-echo Configuring project with CMake...
-cmake .. -DCMAKE_PREFIX_PATH="%QT_DIR%" -DCMAKE_BUILD_TYPE=Release
+:: Configure with CMake using MinGW generator
+echo Configuring project with CMake (MinGW)...
+cmake .. -G "MinGW Makefiles" -DCMAKE_PREFIX_PATH="%QT_DIR%" -DCMAKE_BUILD_TYPE=Release
 if %ERRORLEVEL% neq 0 (
     echo ERROR: CMake configuration failed
     pause

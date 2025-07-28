@@ -6,12 +6,11 @@
 int main(int argc, char *argv[])
 {
     QApplication app(argc, argv);
-
+    
     app.setApplicationName("Vehicle Speed Checkout");
     app.setApplicationVersion("1.0.0");
     app.setOrganizationName("VehicleSpeedCheckout");
 
-   
     QSettings settings;
     if (!settings.contains("lgpl_notice_shown")) {
         QMessageBox::information(nullptr, "Qt LGPL License Notice",
@@ -28,6 +27,6 @@ int main(int argc, char *argv[])
 
     MainWindow mainWindow;
     mainWindow.show();
-
+    
     return app.exec();
 } 

@@ -61,6 +61,11 @@ Makefile*
 *.qm
 *.prl
 
+# Qt Creator project files
+CMakeLists.txt.user
+*.user
+*.user.*
+
 # OS generated files
 .DS_Store
 .DS_Store?
