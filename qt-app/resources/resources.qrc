@@ -3,8 +3,8 @@
         <qresource prefix="/road_textures">
             <file>road.png</file>
         </qresource>
-        <qresource prefix="/vehicles">
-            <!-- Vehicle sprites will be added here -->
+        <qresource prefix="/vehicle">
+            <file>../assets/vehicle/vehicle.png</file>
         </qresource>
         <qresource prefix="/icons">
             <!-- UI icons will be added here -->

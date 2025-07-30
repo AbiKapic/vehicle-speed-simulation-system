@@ -100,6 +100,7 @@ installers/output/
 # Documentation build
 docs/build/
 
+dev-rules/
 
 # These are required for LGPL compliance
 !LICENSE

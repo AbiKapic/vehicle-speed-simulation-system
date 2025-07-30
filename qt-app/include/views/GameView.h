@@ -38,6 +38,7 @@ private:
     void createCarSprite();
     void defineWaypoints();
     void updateCarRotation();
+    void createWoodenBorder();
 
     GameEngine *m_gameEngine;
     QGraphicsScene *m_scene;

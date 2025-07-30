@@ -59,6 +59,7 @@ void MainWindow::createCentralWidget()
 {
     
     m_centralWidget = new QWidget();
+    m_centralWidget->setStyleSheet("background-color: rgb(240, 248, 255);");
     setCentralWidget(m_centralWidget);
     
     m_mainSplitter = new QSplitter(Qt::Horizontal, m_centralWidget);
