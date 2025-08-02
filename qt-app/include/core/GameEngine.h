@@ -5,6 +5,7 @@
 #include <QTimer>
 #include <QElapsedTimer>
 #include "../models/VehicleModel.h"
+#include "../utils/SpeedReportingService.h"
 
 class GameEngine : public QObject
 {
@@ -21,6 +22,7 @@ public:
     void resumeGame();
     
     VehicleModel* vehicle() const { return m_vehicle; }
+    SpeedReportingService* speedReportingService() const { return m_speedReportingService; }
    
     
     void update(double deltaTime);
@@ -51,6 +53,7 @@ private slots:
 
 private:
     VehicleModel *m_vehicle;
+    SpeedReportingService *m_speedReportingService;
     
     
     bool m_isRunning;

@@ -38,7 +38,7 @@ private:
     void createCarSprite();
     void defineWaypoints();
     void updateCarRotation();
-    void createWoodenBorder();
+    void createWoodenBorder(int roadWidth, int roadHeight);
 
     GameEngine *m_gameEngine;
     QGraphicsScene *m_scene;

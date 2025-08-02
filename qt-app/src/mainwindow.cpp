@@ -14,6 +14,7 @@
 #include <QHBoxLayout>
 #include <QVBoxLayout>
 #include <QWidget>
+#include "utils/SpeedReportingService.h"
 
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
@@ -207,6 +208,15 @@ void MainWindow::setupConnections()
             QString message = QString("Current Speed: %1 km/h").arg(qRound(speed));
             statusBar()->showMessage(message);
         });
+        
+        if (m_gameEngine->speedReportingService() && m_controlPanel) {
+            connect(m_gameEngine->speedReportingService(), &SpeedReportingService::reportingStatusChanged,
+                    m_controlPanel, &ControlPanel::onSpeedReportingStatusChanged);
+            connect(m_gameEngine->speedReportingService(), &SpeedReportingService::speedReported,
+                    m_controlPanel, &ControlPanel::onSpeedReported);
+            connect(m_gameEngine->speedReportingService(), &SpeedReportingService::errorOccurred,
+                    m_controlPanel, &ControlPanel::onSpeedReportingErrorOccurred);
+        }
     }
 }
 

@@ -24,10 +24,13 @@ GameEngine::GameEngine(QObject *parent)
     
    
     m_vehicle = new VehicleModel(this);
+    m_speedReportingService = new SpeedReportingService(this);
   
     
    
     setupConnections();
+    
+    m_speedReportingService->startReporting();
     
 }
 
@@ -190,6 +193,7 @@ void GameEngine::onVehiclePositionChanged(const QPointF &position)
 void GameEngine::onVehicleSpeedChanged(double speed)
 {
     emit speedChanged(speed);
+    m_speedReportingService->onSpeedChanged(speed);
 }
 
 void GameEngine::initializeGame()

@@ -164,6 +164,7 @@ void ControlPanel::createUI()
     createGameControls();
     createSpeedControls();
     createStatusDisplay();
+    createSpeedReportingDisplay();
 }
 
 void ControlPanel::setupConnections()
@@ -289,6 +290,26 @@ void ControlPanel::createStatusDisplay()
     m_mainLayout->addStretch();
 }
 
+void ControlPanel::createSpeedReportingDisplay()
+{
+    m_speedReportingGroup = new QGroupBox("Speed Reporting", this);
+    QVBoxLayout *reportingLayout = new QVBoxLayout(m_speedReportingGroup);
+    
+    m_speedReportingStatusLabel = new QLabel("Speed Reporting: Disabled", this);
+    m_speedReportingStatusLabel->setStyleSheet("QLabel { font-size: 14px; color: #f44336; font-weight: bold; }");
+    m_speedReportingStatusLabel->setAlignment(Qt::AlignCenter);
+    
+    m_speedReportingMessageLabel = new QLabel("No speed data sent", this);
+    m_speedReportingMessageLabel->setStyleSheet("QLabel { font-size: 12px; color: #666; }");
+    m_speedReportingMessageLabel->setAlignment(Qt::AlignCenter);
+    m_speedReportingMessageLabel->setWordWrap(true);
+    
+    reportingLayout->addWidget(m_speedReportingStatusLabel);
+    reportingLayout->addWidget(m_speedReportingMessageLabel);
+    
+    m_mainLayout->addWidget(m_speedReportingGroup);
+}
+
 void ControlPanel::updateButtonStates()
 {
     if (m_startButton) {
@@ -360,4 +381,37 @@ QString ControlPanel::formatTime(int seconds) const
     int minutes = seconds / 60;
     int remainingSeconds = seconds % 60;
     return QString("%1:%2").arg(minutes, 2, 10, QChar('0')).arg(remainingSeconds, 2, 10, QChar('0'));
+}
+
+void ControlPanel::onSpeedReportingStatusChanged(bool reporting)
+{
+    if (m_speedReportingStatusLabel) {
+        if (reporting) {
+            m_speedReportingStatusLabel->setText("Speed Reporting: Active");
+            m_speedReportingStatusLabel->setStyleSheet("QLabel { font-size: 14px; color: #4CAF50; font-weight: bold; }");
+        } else {
+            m_speedReportingStatusLabel->setText("Speed Reporting: Disabled");
+            m_speedReportingStatusLabel->setStyleSheet("QLabel { font-size: 14px; color: #f44336; font-weight: bold; }");
+        }
+    }
+}
+
+void ControlPanel::onSpeedReported(const QString &endpoint, const QString &message)
+{
+    if (m_speedReportingMessageLabel) {
+        QString displayText = QString("Last sent: %1 km/h").arg(m_currentSpeed);
+        m_speedReportingMessageLabel->setText(displayText);
+    }
+}
+
+void ControlPanel::onSpeedReportingErrorOccurred(const QString &error)
+{
+    if (m_speedReportingStatusLabel) {
+        m_speedReportingStatusLabel->setText("Speed Reporting: Error");
+        m_speedReportingStatusLabel->setStyleSheet("QLabel { font-size: 14px; color: #ff9800; font-weight: bold; }");
+    }
+    
+    if (m_speedReportingMessageLabel) {
+        m_speedReportingMessageLabel->setText(QString("Error: %1").arg(error));
+    }
 } 

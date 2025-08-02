@@ -10,7 +10,7 @@ set(CMAKE_CXX_STANDARD_REQUIRED ON)
 set(CMAKE_POSITION_INDEPENDENT_CODE ON)
 
 
-find_package(Qt6 REQUIRED COMPONENTS Core Widgets Gui)
+find_package(Qt6 REQUIRED COMPONENTS Core Widgets Gui Network)
 if(Qt6_FOUND)
     message(STATUS "Using Qt6")
     set(QT_VERSION 6)
@@ -41,6 +41,7 @@ set(SOURCES
     src/core/GameEngine.cpp
     src/views/GameView.cpp
     src/views/ControlPanel.cpp
+    src/utils/SpeedReportingService.cpp
 )
 
 
@@ -50,6 +51,7 @@ set(HEADERS
     include/views/ControlPanel.h
     include/models/VehicleModel.h
     include/core/GameEngine.h
+    include/utils/SpeedReportingService.h
 )
 
 
@@ -67,6 +69,7 @@ target_link_libraries(VehicleSpeedCheckout
     Qt6::Core
     Qt6::Widgets
     Qt6::Gui
+    Qt6::Network
 )
 
 if(QT_VERSION EQUAL 6)

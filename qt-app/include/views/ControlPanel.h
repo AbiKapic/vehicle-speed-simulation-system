@@ -50,6 +50,11 @@ private slots:
     void onGameStateChanged();
     void updateSpeedTimer();
 
+public slots:
+    void onSpeedReportingStatusChanged(bool reporting);
+    void onSpeedReported(const QString &endpoint, const QString &message);
+    void onSpeedReportingErrorOccurred(const QString &error);
+
 private:
    
     GameEngine *m_gameEngine;
@@ -73,12 +78,15 @@ private:
     
     QLabel *m_statusLabel;
     QLabel *m_gameTimeLabel;
+    QLabel *m_speedReportingStatusLabel;
+    QLabel *m_speedReportingMessageLabel;
     
    
     QVBoxLayout *m_mainLayout;
     QGroupBox *m_gameControlGroup;
     QGroupBox *m_speedControlGroup;
     QGroupBox *m_statusGroup;
+    QGroupBox *m_speedReportingGroup;
     
     
     QTimer *m_updateTimer;
@@ -89,6 +97,7 @@ private:
     void createGameControls();
     void createSpeedControls();
     void createStatusDisplay();
+    void createSpeedReportingDisplay();
     
     
     void updateButtonStates();

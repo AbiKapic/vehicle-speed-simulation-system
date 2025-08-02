@@ -10,7 +10,7 @@ A Qt-based 2D vehicle simulation application featuring a car driving on professi
 - **Waypoint Navigation**: Car follows a predefined path with smooth movement
 - **Professional Graphics**: Uses high-quality road assets for realistic appearance
 - **LGPL Compliant**: Fully compliant with Qt LGPL v3 licensing requirements
-- **MQTT Ready**: Framework prepared for real-time data transmission to mobile apps
+- **MQTT Speed Reporting**: Real-time MQTT speed data transmission when speed exceeds 80 km/h
 
 ## 📋 Requirements
 
@@ -48,7 +48,15 @@ cmake --build . --config Debug
 2. **Speed Control**: Use the slider or +/- buttons to control vehicle speed
 3. **Stop Simulation**: Click "Stop" to halt the vehicle
 4. **Real-time Display**: Watch the vehicle move along the road path
-5. **Interactive Waypoints**: Click on the road to add custom waypoints (right-click to reset)
+5. **MQTT Speed Reporting**: When speed exceeds 80 km/h, data is automatically sent via MQTT
+6. **Interactive Waypoints**: Click on the road to add custom waypoints (right-click to reset)
+
+### Testing MQTT Speed Reporting
+To test the MQTT speed reporting functionality:
+1. Use MQTTX or any MQTT client to connect to `broker.hivemq.com:1883`
+2. Subscribe to topic `vehicle/speed/alert`
+3. Run the simulation and accelerate the vehicle above 80 km/h
+4. You should see JSON messages with speed data in your MQTT client
 
 ## 📁 Project Structure
 
@@ -93,6 +101,24 @@ qt-app/
 - **Graphics**: QGraphicsView/QGraphicsScene for 2D rendering
 - **Animation**: QTimer-based smooth vehicle movement
 - **Build System**: CMake with Ninja generator
+
+### MQTT Speed Reporting Configuration
+- **Broker**: HiveMQ public broker (broker.hivemq.com:1883)
+- **Topic**: `vehicle/speed/alert`
+- **Client ID**: `mqttx_ada8b259`
+- **Threshold**: 80 km/h
+- **Message Format**: JSON with timestamp, speed, unit, and vehicle ID
+
+Example MQTT message:
+```json
+{
+  "timestamp": "2024-01-15T10:30:45.123Z",
+  "speed": 85.5,
+  "unit": "km/h",
+  "threshold_exceeded": true,
+  "vehicle_id": "mqttx_ada8b259"
+}
+```
 
 ### Key Components
 - **GameView**: Handles 2D graphics rendering and car animation

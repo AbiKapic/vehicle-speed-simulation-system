@@ -46,7 +46,7 @@ void GameView::setupScene()
     setHorizontalScrollBarPolicy(Qt::ScrollBarAsNeeded);
     setVerticalScrollBarPolicy(Qt::ScrollBarAsNeeded);
     
-    setBackgroundBrush(QBrush(QColor(240, 248, 255)));
+    setBackgroundBrush(QBrush(Qt::transparent));
     
     loadRoadBackground();
 }
@@ -66,7 +66,7 @@ void GameView::loadRoadBackground()
         m_roadBackground->setZValue(-1);
         m_roadBackground->setPos(100, 0);
         
-        createWoodenBorder();
+        createWoodenBorder(scaledRoad.width(), scaledRoad.height());
     } else {
         QPixmap roadBackground(1200, 800);
         roadBackground.fill(QColor(50, 50, 50));
@@ -89,34 +89,39 @@ void GameView::loadRoadBackground()
         m_roadBackground->setZValue(-1);
         m_roadBackground->setPos(100, 0);
         
-        createWoodenBorder();
+        createWoodenBorder(1200, 800);
     }
 }
 
-void GameView::createWoodenBorder()
+void GameView::createWoodenBorder(int roadWidth, int roadHeight)
 {
-    QPixmap borderPixmap(1220, 820);
+    int borderThickness = 30;
+    int borderWidth = roadWidth + (borderThickness * 2);
+    int borderHeight = roadHeight + (borderThickness * 2);
+    
+    QPixmap borderPixmap(borderWidth, borderHeight);
     borderPixmap.fill(Qt::transparent);
     
     QPainter painter(&borderPixmap);
     painter.setRenderHint(QPainter::Antialiasing);
     
-    QLinearGradient woodGradient(0, 0, 0, 20);
-    woodGradient.setColorAt(0, QColor(139, 69, 19));
-    woodGradient.setColorAt(0.5, QColor(160, 82, 45));
+    QLinearGradient woodGradient(0, 0, 0, borderThickness);
+    woodGradient.setColorAt(0, QColor(101, 67, 33));
+    woodGradient.setColorAt(0.3, QColor(139, 69, 19));
+    woodGradient.setColorAt(0.7, QColor(160, 82, 45));
     woodGradient.setColorAt(1, QColor(101, 67, 33));
     
     painter.setBrush(QBrush(woodGradient));
-    painter.setPen(QPen(QColor(101, 67, 33), 2));
+    painter.setPen(QPen(QColor(80, 50, 20), 1));
     
-    painter.drawRect(0, 0, 1220, 20);
-    painter.drawRect(0, 800, 1220, 20);
-    painter.drawRect(0, 0, 20, 820);
-    painter.drawRect(1200, 0, 20, 820);
+    painter.drawRect(0, 0, borderWidth, borderThickness);
+    painter.drawRect(0, borderHeight - borderThickness, borderWidth, borderThickness);
+    painter.drawRect(0, 0, borderThickness, borderHeight);
+    painter.drawRect(borderWidth - borderThickness, 0, borderThickness, borderHeight);
     
     QGraphicsPixmapItem *borderItem = m_scene->addPixmap(borderPixmap);
     borderItem->setZValue(-2);
-    borderItem->setPos(90, -10);
+    borderItem->setPos(100 - borderThickness, 0 - borderThickness);
 }
 
 void GameView::createCarSprite()
@@ -183,15 +188,12 @@ void GameView::defineWaypoints()
     m_waypoints.append(QPointF(407.854, 103.055));
     m_waypoints.append(QPointF(748.791, 119.4));
     m_waypoints.append(QPointF(746.101, 411.809));
-  //
-  
- //   m_waypoints.append(QPointF(723.711, 442.268));
+ 
     m_waypoints.append(QPointF(608.425, 401.05));
- //   m_waypoints.append(QPointF(589.691, 489.784));
+ 
     m_waypoints.append(QPointF(536.289, 522.611));
     m_waypoints.append(QPointF(538.725, 664.011));
- //   m_waypoints.append(QPointF(542.174, 672.54));
- //   m_waypoints.append(QPointF(211.996, 679.85));
+
     
     m_currentWaypointIndex = 0;
     m_carProgress = 0.0;
